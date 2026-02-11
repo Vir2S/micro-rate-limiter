@@ -1,0 +1,53 @@
+{
+  "default": {
+    "limit": 120,
+    "period_seconds": 60,
+    "burst": 120,
+    "scope": "key_route"
+  },
+  "rules": [
+    {
+      "name": "s3_proxy_write",
+      "methods": [
+        "PUT",
+        "POST",
+        "DELETE"
+      ],
+      "path_prefix": "/proxy",
+      "limit": 10,
+      "period_seconds": 1,
+      "burst": 20,
+      "scope": "key_route"
+    },
+    {
+      "name": "s3_proxy_read",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "path_prefix": "/proxy",
+      "limit": 60,
+      "period_seconds": 1,
+      "burst": 120,
+      "scope": "key_route"
+    },
+    {
+      "name": "heavy_analyze",
+      "methods": [
+        "POST"
+      ],
+      "path_prefix": "/analyze",
+      "limit": 6,
+      "period_seconds": 60,
+      "burst": 6,
+      "scope": "key_route",
+      "concurrency": {
+        "limit": 2,
+        "ttl_seconds": 120
+      }
+    }
+  ],
+  "bypass_keys": [
+    "internal-admin"
+  ]
+}
